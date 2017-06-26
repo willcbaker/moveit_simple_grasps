@@ -125,21 +125,21 @@ namespace moveit_simple_grasps
     moveit_simple_grasps::GraspData grasp_data_;
 
     // which arm are we using
-    std::string side_;
+    std::string group_;
     std::string planning_group_name_;
 
   public:
 
     // Constructor
-    GraspGeneratorServer(const std::string &name, const std::string &side)
+    GraspGeneratorServer(const std::string &name, const std::string &group)
       : nh_("~")
       , as_(nh_, name, boost::bind(&moveit_simple_grasps::GraspGeneratorServer::executeCB, this, _1), false)
-      , side_(side)
-      , planning_group_name_(side_+"_arm")
+      , group_(group)
+      , planning_group_name_(group_)
     {
       // ---------------------------------------------------------------------------------------------
       // Load grasp data specific to our robot
-      if (!grasp_data_.loadRobotGraspData(nh_, side_))
+      if (!grasp_data_.loadRobotGraspData(nh_, group_))
         ros::shutdown();
 
       // ---------------------------------------------------------------------------------------------
